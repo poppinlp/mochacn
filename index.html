@@ -10,7 +10,7 @@
         <script src="js/mocha/html5shiv.js"></script>
     <![endif]-->
     <script src="static/jquery-2.1.1.min.js"></script>
-    <script src="staitc/highlight.js"></script>
+    <script src="static/highlight.js"></script>
     <script>setTimeout(function() { $('body').addClass('onload'); }, 0);</script>
 </head>
 <body>
@@ -70,7 +70,7 @@
             <li><a href="#browser-support">支持浏览器</a></li>
             <li><a href="#mocha.opts">mocha.opts</a></li>
             <li><a href="#suite-specific-timeouts">Suite specific timeouts</a></li>
-            <li><a href="#test-specific-timeouts">Test specific timeouts</a></li>
+            <li><a href="#test-specific-timeouts">指定测试超时时间</a></li>
             <li><a href="#best-practices">最佳实践</a></li>
             <li><a href="#editors">编辑器</a></li>
             <li><a href="#example-test-suites">测试方案示例</a></li>
@@ -572,16 +572,11 @@ mocha.run();
 --reporter dot
 --ui bdd</code></pre>
 
-        <p>This will default the reporter to <code>dot</code>, require the <code>should</code> library,
-        and use <code>bdd</code> as the interface. With this you may then invoke <code>mocha(1)</code>
-        with additional arguments, here enabling growl support and changing
-        the reporter to <code>spec</code>:</p>
+        <p>This will default the reporter to <code>dot</code>, require the <code>should</code> library, and use <code>bdd</code> as the interface. With this you may then invoke <code>mocha(1)</code> with additional arguments, here enabling growl support and changing the reporter to <code>spec</code>:</p>
 <pre><code>$ mocha --reporter list --growl</code></pre>
 
         <h2 id="suite-specific-timeouts">Suite specific timeouts</h2>
-        <p>Suite-level timeouts may be applied to entire test "suites", or disabled
-        via <code>this.timeout(0)</code>. This will be inherited by all nested suites and test-cases
-        that do not override the value.</p>
+        <p>Suite-level timeouts may be applied to entire test "suites", or disabled via <code>this.timeout(0)</code>. This will be inherited by all nested suites and test-cases that do not override the value.</p>
 <pre><code>describe('a suite of tests', function() {
     this.timeout(500);
 
@@ -594,9 +589,8 @@ mocha.run();
     });
 });</code></pre>
 
-        <h2 id="test-specific-timeouts">Test specific timeouts</h2>
-        <p>Test-specific timeouts may also be applied, or the use of <code>this.timeout(0)</code>
-        to disable timeouts all together:</p>
+        <h2 id="test-specific-timeouts">指定测试超时时间</h2>
+        <p>测试可以指定超时时间，也可以通过<code>this.timeout(0)</code>来关闭所有的超时时间：</p>
 <pre><code>it('should take less than 500ms', function(done) {
     this.timeout(500);
     setTimeout(done, 300);
