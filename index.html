@@ -68,8 +68,8 @@
             <li><a href="#interfaces">接口</a></li>
             <li><a href="#reporters">监控器</a></li>
             <li><a href="#browser-support">支持浏览器</a></li>
-            <li><a href="#mocha.opts">mocha.opts</a></li>
-            <li><a href="#suite-specific-timeouts">Suite specific timeouts</a></li>
+            <li><a href="#mocha.opts">mocha.opts文件</a></li>
+            <li><a href="#suite-specific-timeouts">指定方案超时时间</a></li>
             <li><a href="#test-specific-timeouts">指定测试超时时间</a></li>
             <li><a href="#best-practices">最佳实践</a></li>
             <li><a href="#editors">编辑器</a></li>
@@ -265,23 +265,23 @@ Options:
 -r, --require &lt;name&gt;            加载指定的模块
 -R, --reporter &lt;name&gt;           指定使用的监控器
 -u, --ui &lt;name&gt;                 指定使用的接口（bdd | tdd | exports）
--g, --grep &lt;pattern&gt;            only run tests matching &lt;pattern&gt;
+-g, --grep &lt;pattern&gt;            只执行满足路径模式的测试脚本
 -i, --invert                    inverts --grep matches
--t, --timeout &lt;ms&gt;              set test-case timeout in milliseconds [2000]
+-t, --timeout &lt;ms&gt;              设置测试用例的超时时间，单位毫秒，默认为2000
 -s, --slow &lt;ms&gt;                 "slow" test threshold in milliseconds [75]
--w, --watch                     watch files for changes
--c, --colors                    force enabling of colors
--C, --no-colors                 force disabling of colors
+-w, --watch                     监测有变化的文件
+-c, --colors                    强制使用文本颜色
+-C, --no-colors                 强制关闭文本颜色
 -G, --growl                     enable growl notification support
 -d, --debug                     enable node's debugger, synonym for node --debug
 -b, --bail                      bail after first test failure
 -A, --async-only                force all tests to take a callback (async)
---recursive                     include sub directories
+--recursive                     包含子文件夹
 --debug-brk                     enable node's debugger breaking on the first line
 --globals &lt;names&gt;               allow the given comma-delimited global [names]
 --check-leaks                   check for global variable leaks
---interfaces                    display available interfaces
---reporters                     display available reporters
+--interfaces                    显示可用的接口列表
+--reporters                     显示可用的监控器列表
 --compilers &lt;ext&gt;:&lt;module&gt;,...  use the given module(s) to compile files</code></pre>
 
         <h3 id="watch-option">-w, --watch</h3>
@@ -333,10 +333,10 @@ Options:
 });</code></pre>
 
         <h2 id="interfaces">接口</h2>
-        <p>Mocha "interface" system allows developers to choose their style of DSL. Shipping with <strong>BDD</strong>, <strong>TDD</strong>, and <strong>exports</strong> flavoured interfaces.</p>
+        <p>Mocha的接口系统提供了<strong>BDD</strong>、<strong>TDD</strong>和<strong>exports</strong>三种风格，并允许开发者选择使用。</p>
 
         <h3 id="bdd-interface">BDD</h3>
-        <p>The "<strong>BDD</strong>" interface provides <code>describe()</code>, <code>it()</code>, <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, and <code>afterEach()</code>:</p>
+        <p>"<strong>BDD</strong>"接口提供了<code>describe()</code>、<code>it()</code>、<code>before()</code>、<code>after()</code>、<code>beforeEach()</code>和<code>afterEach</code>可使用。</p>
 <pre><code>describe('Array', function() {
     before(function() {
         // ...
@@ -350,7 +350,7 @@ Options:
 });</code></pre>
 
         <h3 id="tdd-interface">TDD</h3>
-        <p>The "<strong>TDD</strong>" interface provides <code>suite()</code>, <code>test()</code>, <code>setup()</code>, and <code>teardown()</code>.</p>
+        <p>"<strong>TDD</strong>"接口提供了<code>suite()</code>、<code>test()</code>、<code>setup()</code>和<code>teardown()</code>可使用。</p>
 <pre><code>suite('Array', function() {
     setup(function() {
         // ...
@@ -501,19 +501,17 @@ testCase('Array', function() {
 
         <p>The command <code>mocha --reporter doc array</code> would yield:</p>
 <pre><code>&lt;section class="suite"&gt;
-&lt;h1&gt;Array&lt;/h1&gt;
-&lt;dl&gt;
-&lt;section class="suite"&gt;
-&lt;h1&gt;#indexOf()&lt;/h1&gt;
-&lt;dl&gt;
-&lt;dt&gt;should return -1 when the value is not present&lt;/dt&gt;
-&lt;dd&gt;&lt;pre&gt;&lt;code&gt;[1,2,3].indexOf(5).should.equal(-1);
-[1,2,3].indexOf(0).should.equal(-1);&lt;/code&gt;&lt;/pre&gt;&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/section&gt;
-&lt;/dl&gt;
-&lt;/section&gt;
-</code></pre>
+    &lt;h1&gt;Array&lt;/h1&gt;
+    &lt;dl&gt;
+        &lt;section class="suite"&gt;
+            &lt;h1&gt;#indexOf()&lt;/h1&gt;
+            &lt;dl&gt;
+                &lt;dt&gt;should return -1 when the value is not present&lt;/dt&gt;
+                &lt;dd&gt;&lt;pre&gt;&lt;code&gt;[1,2,3].indexOf(5).should.equal(-1); [1,2,3].indexOf(0).should.equal(-1);&lt;/code&gt;&lt;/pre&gt;&lt;/dd&gt;
+            &lt;/dl&gt;
+        &lt;/section&gt;
+    &lt;/dl&gt;
+&lt;/section&gt;</code></pre>
 
         <p>The SuperAgent request library <a href="http://visionmedia.github.io/superagent/docs/test.html">test documentation</a> was generated with Mocha's doc reporter using this simple make target:</p>
 <pre><code>test-docs:
@@ -533,50 +531,47 @@ make test REPORTER=doc \
         <p>The "markdown" reporter generates a markdown TOC and body for your test suite. This is great if you want to use the tests as documentation within a Github wiki page, or a markdown file in the repository that Github can render. For example here is the Connect <a href="https://github.com/senchalabs/connect/blob/90a725343c2945aaee637e799b1cd11e065b2bff/tests.md">test output</a>.</p>
 
         <h3 id="html-reporter">HTML</h3>
-        <p>The <strong>HTML</strong> reporter is currently the only browser reporter
-        supported by Mocha, and it looks like this:</p>
+        <p>The <strong>HTML</strong> reporter is currently the only browser reporter supported by Mocha, and it looks like this:</p>
         <p><img src="static/reporter-html.png" alt="HTML test reporter" title="" /></p>
 
         <h2 id="browser-support">支持浏览器</h2>
-        <p>Mocha runs in the browser. Every release of Mocha will have new builds of <em>./mocha.js</em> and <em>./mocha.css</em> for use in the browser. To setup Mocha for browser use all you have to do is include the script, stylesheet, tell Mocha which interface you wish to use, and then run the tests. A typical setup might look something like the following, where we call <code>mocha.setup('bdd')</code> to use the <strong>BDD</strong> interface before loading the test scripts, running them <code>onload</code> with <code>mocha.run()</code>.</p>
+        <p>Mocha在浏览器中执行。每个Mocha的发行版会为浏览器生成新的<em>./mocha.js</em>和<em>./mocha.css</em>。只需要加载相应的script和stylesheet，并告诉Mocha你希望使用的接口，你就可以使用Mocha在浏览器中执行测试。下面是一个典型的使用Mocha的测试，在加载测试脚本前，我们调用<code>mocha.setup('bdd')</code>来使用<strong>BDD</strong>接口，然后通过<code>mocha.run()</code>在<code>onload</code>之后执行测试脚本。</p>
 <pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;meta charset="utf-8"&gt;
-&lt;title&gt;Mocha Tests&lt;/title&gt;
-&lt;link rel="stylesheet" href="mocha.css" /&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div id="mocha"&gt;&lt;/div&gt;
-&lt;script src="jquery.js"&gt;&lt;/script&gt;
-&lt;script src="expect.js"&gt;&lt;/script&gt;
-&lt;script src="mocha.js"&gt;&lt;/script&gt;
-&lt;script&gt;mocha.setup('bdd')&lt;/script&gt;
-&lt;script src="test.array.js"&gt;&lt;/script&gt;
-&lt;script src="test.object.js"&gt;&lt;/script&gt;
-&lt;script src="test.xhr.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-mocha.checkLeaks();
-mocha.globals(['jQuery']);
-mocha.run();
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;title&gt;Mocha Tests&lt;/title&gt;
+        &lt;link rel="stylesheet" href="mocha.css" /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id="mocha"&gt;&lt;/div&gt;
+        &lt;script src="jquery.js"&gt;&lt;/script&gt;
+        &lt;script src="expect.js"&gt;&lt;/script&gt;
+        &lt;script src="mocha.js"&gt;&lt;/script&gt;
+        &lt;script&gt;mocha.setup('bdd')&lt;/script&gt;
+        &lt;script src="test.array.js"&gt;&lt;/script&gt;
+        &lt;script src="test.object.js"&gt;&lt;/script&gt;
+        &lt;script src="test.xhr.js"&gt;&lt;/script&gt;
+        &lt;script&gt;
+            mocha.checkLeaks();
+            mocha.globals(['jQuery']);
+            mocha.run();
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
 
         <h3 id="grep-query">grep</h3>
         <p>The client-side may utilize <code>--grep</code> as well, however you use the query-string, for example <code>?grep=api</code>.</p>
 
-        <h2 id="mocha.opts">mocha.opts</h2>
-        <p>Mocha will attempt to load <code>./test/mocha.opts</code>, these are concatenated with <code>process.argv</code>, though command-line args will take precedence. For example suppose you have the following <em>mocha.opts</em> file:</p>
+        <h2 id="mocha.opts">mocha.opts文件</h2>
+        <p>Mocha会尝试取加载<code>./test/mocha.opts</code>文件，并把它与<code>process.argv</code>联系起来，但命令行参数的优先级更高。例如你有下面这样的<em>mocha.opts</em>文件：</p>
 <pre><code>--require should
 --reporter dot
 --ui bdd</code></pre>
-
-        <p>This will default the reporter to <code>dot</code>, require the <code>should</code> library, and use <code>bdd</code> as the interface. With this you may then invoke <code>mocha(1)</code> with additional arguments, here enabling growl support and changing the reporter to <code>spec</code>:</p>
+        <p>这会默认使用<code>dot</code>监控器、加载<code>should</code>库并使用<code>bdd</code>接口。与此同时，你也可以在调用<code>mocha(1)</code>的时候添加参数，比如下面这样会激活growl支持并将监控器设置为<code>list</code>：</p>
 <pre><code>$ mocha --reporter list --growl</code></pre>
 
-        <h2 id="suite-specific-timeouts">Suite specific timeouts</h2>
-        <p>Suite-level timeouts may be applied to entire test "suites", or disabled via <code>this.timeout(0)</code>. This will be inherited by all nested suites and test-cases that do not override the value.</p>
+        <h2 id="suite-specific-timeouts">指定方案超时时间</h2>
+        <p>方案级的超时时间会对整个测试方案生效，也可以通过<code>this.timeout(0)</code>来关闭。如果其内部的测试方案和测试用例不覆盖这个值，那么这个值将被继承。</p>
 <pre><code>describe('a suite of tests', function() {
     this.timeout(500);
 
