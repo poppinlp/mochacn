@@ -285,7 +285,7 @@ Options:
 --compilers &lt;ext&gt;:&lt;module&gt;,...  use the given module(s) to compile files</code></pre>
 
         <h3 id="watch-option">-w, --watch</h3>
-        <p>Executes tests on changes to JavaScript in the CWD, and once initially.</p>
+        <p>在当前工作目录中的 Javascript 文件发生改变时，立即执行相应的测试。</p>
 
         <h3 id="compilers-option">--compilers</h3>
         <p>coffee-script is no longer supported out of the box. CS and similar transpilers may be used by mapping the file extensions (for use with --watch) and the module name. For example <code>--compilers coffee:coffee-script</code> with CoffeeScript 1.6- or <code>--compilers coffee:coffee-script/register</code> with CoffeeScript 1.7+.</p>
@@ -425,7 +425,7 @@ testCase('Array', function() {
 });</code></pre>
 
         <h2 id="reporters">监控器</h2>
-        <p>Mocha reporters adjust to the terminal window, and always disable ansi-escape colouring when the stdio streams are not associated with a tty.</p>
+        <p>Mocha 的监控器可以适应控制台窗口，并且当标准输入流不是和 tty 关联的时候，它总是会禁用 ansi-escape 着色。</p>
 
         <h3 id="dot-matrix-reporter">Dot Matrix</h3>
         <p>The "dot" matrix reporter is simply a series of dots that represent test cases, failures highlight in red, pending in blue, slow as yellow.</p>
@@ -597,7 +597,7 @@ make test REPORTER=doc \
         <p><code>mocha(1)</code>默认会使用<code>./test/*.js</code>这个路径模式，这也通常是你放测试用例的好地方。</p>
 
         <h3 id="makefiles">Makefiles</h3>
-        <p>Be kind and don't make developers hunt around in your docs to figure out how to run the tests, add a <code>make test</code> target to your <em>Makefile</em>:</p>
+        <p>对开发者友好，在<em>Makefile</em>中添加一个<code>make test</code>，不要让他们在你的文档中到处寻找如何运行测试用例：</p>
 <pre><code>test:
 ./node_modules/.bin/mocha --reporter list
 
